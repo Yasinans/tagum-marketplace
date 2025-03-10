@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import {
+/*import {
   CalendarDateRangeIcon,
   ArrowDownCircleIcon,
   ArrowPathRoundedSquareIcon,
   ListBulletIcon
 } from '@heroicons/vue/24/solid';
-
+*/
 </script>
 
 <template>

@@ -12,10 +12,11 @@
   "app": {
     "windows": [
       {
-        "title": "tagum-marketplace",
+        "title": "Tagum Marketplace",
         "width": 1370,
         "height": 768,
-        "minWidth": 920
+        "minWidth": 920,
+        "minHeight": 600
       }
     ],
     "security": {

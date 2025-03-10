@@ -103,8 +103,6 @@ const login = async () => {
   font-style: normal;
   font-weight: 300;
   line-height: normal;
-  font-variation-settings:
-    "wdth" 75;
 }
 
 .login-container {
