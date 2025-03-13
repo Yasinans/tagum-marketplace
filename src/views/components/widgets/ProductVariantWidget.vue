@@ -44,9 +44,9 @@ const resetValidationErrors = () => {
 
 const validateForm = () => {
   validationErrors.value = {
-    Bar_Code: productVariantForm.value.Bar_Code ? "" : "Bar Code is required.",
+    Bar_Code: productVariantForm.value.Bar_Code.trim() ? "" : "Bar Code is required.",
     Unit_Weight: productVariantForm.value.Unit_Weight && productVariantForm.value.Unit_Weight > 0 ? "" : "Unit Weight must be valid.",
-    Unit_Size: productVariantForm.value.Unit_Size ? "" : "Unit Size is required.",
+    Unit_Size: productVariantForm.value.Unit_Size.trim() ? "" : "Unit Size is required.",
     Unit_Price: productVariantForm.value.Unit_Price && productVariantForm.value.Unit_Price > 0 ? "" : "Unit Price must be valid.",
   };
 
@@ -57,27 +57,33 @@ const handleSubmit = (isEdit: boolean) => {
     saveProductVariant(isEdit);
   }
 };
+
+const refreshData = () => {
+  loadProductVariant();
+  loadProduct();
+}
 </script>
 
 <template>
-  <div class="tg-widget w-[100%]">
+  <div class="tg-widget">
     <div class="tg-widget-h">
       <div>
         Product Variants
       </div>
       <div class="flex">
-        <label class="input text-[14px] text-black min-w-[270px] h-[32px] mr-2 grow bg-[#f7f2f2]">
+        <label class="input text-[14px] text-black min-w-[270px] h-[32px] mr-2 grow bg-[#fffcf8]">
           <magnifying-glass-icon class="h-[20px] pr-1 " />
           <input v-model="productVariantSearch" type="search" class="grow" placeholder="Search Product Name or Barcode">
         </label>
-        <div @click="loadProductVariant(); loadProduct()" class="tg-widget-btn mr-2 tooltip tooltip-left"
+        <div @click="refreshData()" class="tg-widget-btn mr-2 tooltip tooltip-left"
           data-tip="Refresh">
           <arrow-path-rounded-square-icon class="tg-widget-btn-icon" />
         </div>
         <div @click="
           messages.add = '';
+          refreshData();
           resetValidationErrors();
-        resetProductVariantForm();" onclick="addProductVariantModal.showModal()"
+          resetProductVariantForm();" onclick="addProductVariantModal.showModal()"
           class="tg-widget-btn mr-2 tooltip tooltip-left" data-tip="Add New Product Variant">
           <plus-icon class="tg-widget-btn-icon" />
         </div>
@@ -104,19 +110,20 @@ const handleSubmit = (isEdit: boolean) => {
             <td>{{ productVariant.Inventory_Quantity }}</td>
             <td>
               <div class="flex gap-[10px] justify-start !pr-[20px] ">
-                <button class="btn h-[25px] p-[12px] shadow-md bg-[#f5e6e6] border-none"
+                <button class="btn h-[25px] p-[12px] shadow-md bg-[#ffffff] border-none"
                   onclick="editProductVariantModal.showModal()" @click="
+                  refreshData();
                   resetValidationErrors();
-                    messages.edit = '';
+                  messages.edit = '';
                   productVariantForm = { ...productVariant };
                   selectedProductVariantId = productVariant.Bar_Code">
                   Edit
                 </button>
                 <button onclick="deleteProductVariantModal.showModal()" @click="
-                resetValidationErrors();
+                  resetValidationErrors();
                   messages.delete = '';
-                productVariantForm = { ...productVariant };
-                selectedProductVariantId = productVariant.Bar_Code"
+                  productVariantForm = { ...productVariant };
+                  selectedProductVariantId = productVariant.Bar_Code"
                   class="btn h-[25px] p-[12px] shadow-md bg-[#fc5861] border-none">
                   Delete
                 </button>
@@ -155,15 +162,15 @@ const handleSubmit = (isEdit: boolean) => {
           <p class="text-xs pb-1">Unit Weight:</p>
           <input v-model="productVariantForm.Unit_Weight" type="number" placeholder="Unit Weight"
             class="rounded-[6px] px-2 py-1 max-w-xs" />
-          <p v-if="validationErrors.Bar_Code" class="text-xs pt-1 !text-[#5e050a]">
+          <p v-if="validationErrors.Unit_Weight" class="text-xs pt-1 !text-[#5e050a]">
             {{ validationErrors.Unit_Weight }}
           </p>
         </div>
         <div class="pt-1 flex flex-col">
           <p class="text-xs pb-1">Unit Size: (mg,g,ml,l,etc)</p>
-          <input v-model="productVariantForm.Unit_Size" type="text" placeholder="Unit Size"
+          <input v-model="productVariantForm.Unit_Size" type="text" maxlength="3" placeholder="Unit Size"
             class="rounded-[6px] px-2 py-1 max-w-xs" />
-          <p v-if="validationErrors.Bar_Code" class="text-xs pt-1 !text-[#5e050a]">
+          <p v-if="validationErrors.Unit_Size" class="text-xs pt-1 !text-[#5e050a]">
             {{ validationErrors.Unit_Size }}
           </p>
         </div>
@@ -171,7 +178,7 @@ const handleSubmit = (isEdit: boolean) => {
           <p class="text-xs pb-1">Price:</p>
           <input v-model="productVariantForm.Unit_Price" type="number" placeholder="Unit Price"
             class="rounded-[6px] px-2 py-1 max-w-xs" />
-          <p v-if="validationErrors.Bar_Code" class="text-xs pt-1 !text-[#5e050a]">
+          <p v-if="validationErrors.Unit_Price" class="text-xs pt-1 !text-[#5e050a]">
             {{ validationErrors.Unit_Price }}
           </p>
         </div>
@@ -181,7 +188,7 @@ const handleSubmit = (isEdit: boolean) => {
         <form method="dialog">
           <button class=" btn shadow-xs h-7 mr-2 px-2 py-1 text-[12px]">Cancel</button>
         </form>
-        <button @click="handleSubmit(false)" class="btn btn-error shadow-xs h-7 px-2 py-1 text-[12px]">
+        <button @click="handleSubmit(false)" class="btn bg-[#ffc04a] shadow-xs h-7 px-2 py-1 text-[12px]">
           Create Product Variant</button>
       </div>
     </div>
@@ -192,7 +199,7 @@ const handleSubmit = (isEdit: boolean) => {
     <div class="modal-box !max-w-fit">
       <div class="leading-none mb-1 flex items-center">
         <p class="text-lg font-bold">Edit Product Variant Info</p>
-        <div class="text-[12px] ml-[10px] bg-[#b0594a] text-white badge">
+        <div class="text-[12px] ml-[10px] bg-[#79a0db] text-white badge">
           {{productVariantDatas.find((e) => e.Bar_Code === selectedProductVariantId)?.Bar_Code}}
         </div>
       </div>
@@ -243,7 +250,7 @@ const handleSubmit = (isEdit: boolean) => {
         <form method="dialog">
           <button class="btn shadow-xs h-7 mr-2 px-2 py-1 text-[12px]">Cancel</button>
         </form>
-        <button @click="handleSubmit(true)" class="btn btn-error shadow-xs h-7 px-2 py-1 text-[12px]">
+        <button @click="handleSubmit(true)" class="btn bg-[#ffc04a] shadow-xs h-7 px-2 py-1 text-[12px]">
           Edit Product Variant
         </button>
       </div>

@@ -1,10 +1,12 @@
 require('dotenv').config();
+const fs = require('fs');
 
+const config = JSON.parse(fs.readFileSync('config.json', 'utf-8'));
 const express = require('express');
 const cors = require("cors");
 const bodyParser = require('body-parser');
 const app = express();
-const port = 3000;
+const port = config.port;
 
 const defRouter = require('./routes/index');
 const authRoutes = require('./routes/authRoutes');

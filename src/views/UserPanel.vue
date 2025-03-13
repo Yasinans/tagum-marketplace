@@ -23,17 +23,19 @@
   .router-view {
     
     border-top-left-radius: 10px;
-    background: linear-gradient(to right, #3d2929, #311b1b); 
+    background: #dfcec8; 
 
     overflow: auto;
     grid-row:2;
     grid-column: 2;
   }
   .panel-container {
+    user-select: none;
+
     overflow: hidden;
     display: grid;
     grid-gap:0;
-    background-color: #614242;
+    background-color: #8b7067;
     grid-template-columns: auto 1fr;
     grid-template-rows: auto 1fr;
     height:100vh;

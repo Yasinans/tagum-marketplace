@@ -16,7 +16,7 @@ export interface SupplierCreateUpdate {
     contactno: string;
 }
 const api = axios.create({
-    baseURL: API_BASE_URL+"/api/supplier",
+    baseURL: API_BASE_URL.value+"/api/supplier",
 });
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem('token');

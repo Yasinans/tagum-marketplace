@@ -3,6 +3,8 @@ import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from 'vue-router';
 import { getRole } from "../utils/authUtil.ts";
+import { API_BASE_URL } from "../config.ts";
+import logo from '../assets/logo.png'
 const username = ref("");
 const password = ref("");
 const message = ref("");
@@ -12,7 +14,7 @@ const login = async () => {
   if (username.value == "") return message.value = "Username cannot be empty."
   else if (password.value == "") return message.value = "Password cannot be empty."
   try {
-    const res = await axios.post("http://localhost:3000/api/auth/login", {
+    const res = await axios.post(API_BASE_URL.value+"/api/auth/login", {
       username: username.value,
       password: password.value
     });
@@ -28,7 +30,7 @@ const login = async () => {
     }
   } catch (err) {
     if (axios.isAxiosError(err)) {
-      message.value = (err.response?.data?.message || "Server error");
+      message.value = (err.response?.data.message || "Server error");
     } else {
       message.value = "An unexpected error occurred.";
     }
@@ -39,6 +41,9 @@ const login = async () => {
 
 <template>
   <main class="login-container">
+    <div>
+      <img :src="logo" class="h-50 mt-10" alt="Logo">
+    </div>
     <div class="login-form">
       <div class="login-title">Sign In to Your Dashboard</div>
       <form class="login-form-detail" @submit.prevent>
@@ -66,9 +71,9 @@ const login = async () => {
   height: 42px;
   border-radius: 16px;
   background: #ffffff;
-  border: 0px solid;
+  border: 2px solid;
   box-shadow: 0px 3px 2.4px -1px rgba(0, 0, 0, 0.24);
-  transition: all 300ms ease-in-out;
+  transition: all 150ms ease-in-out;
 }
 
 .login-button:hover,
@@ -89,7 +94,7 @@ const login = async () => {
 .login-input {
   margin: 7px 0 20px 0;
   border-radius: 4px;
-  border: 1px solid #D6D9DA;
+  border: 2px solid #eeddcd;
   background: #352929;
   padding-left: 5px;
   color: white;
@@ -106,19 +111,23 @@ const login = async () => {
 }
 
 .login-container {
+  user-select: none;
   display: flex;
-  background-color: #684B4B;
+  flex-direction: column;
+  background-color: #d1b79d;
   height: 100vh;
-  justify-content: center;
+  justify-content: c;
   align-items: center;
 }
 
 .login-form {
+  align-self: center;
+  justify-self: center;
   height: 371px;
   width: 452px;
   border-radius: 11px;
   border: 2px solid #FFF;
-  background: #FBAB7E;
+  background: #DDB892;
   box-shadow: 0px 0px 4.3px 4px rgba(0, 0, 0, 0.21) inset;
 }
 

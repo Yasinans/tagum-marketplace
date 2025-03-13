@@ -19,7 +19,7 @@ export interface ProductVariantCreateUpdate {
     unitPrice: number;
 }
 const api = axios.create({
-    baseURL: API_BASE_URL+"/api/productVariant"
+    baseURL: API_BASE_URL.value+"/api/productVariant"
 });
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem('token');

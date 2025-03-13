@@ -11,7 +11,7 @@ export interface RemarkCreateUpdate {
 }
 
 const api = axios.create({
-    baseURL: API_BASE_URL+"/api/remark",
+    baseURL: API_BASE_URL.value+"/api/remark",
 });
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem('token');

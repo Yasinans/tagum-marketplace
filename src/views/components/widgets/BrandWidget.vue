@@ -18,7 +18,7 @@ const resetValidationErrors = () => {
 
 const validateBrandForm = () => {
   validationErrors.value = {
-    Brand_Name: brandForm.value.Brand_Name ? "" : "Brand Name is required.",
+    Brand_Name: brandForm.value.Brand_Name.trim() ? "" : "Brand Name is required.",
   };
 
   return Object.values(validationErrors.value).every((error) => error === "");
@@ -32,11 +32,11 @@ const handleSubmit = (isEdit: boolean) => {
 </script>
 
 <template>
-  <div class="tg-widget">
+  <div class="tg-widget !h-fit">
     <div class="tg-widget-h">
       <div>Brands</div>
       <div class="flex">
-        <label class="input text-[14px] text-black h-[32px] mr-2 grow bg-[#f7f2f2]">
+        <label class="input text-[14px] text-black h-[32px] mr-2 grow bg-[#fffcf8]">
           <magnifying-glass-icon class="h-[20px] pr-1" />
           <input v-model="brandSearch" type="search" class="grow" placeholder="Search Brand Name">
         </label>
@@ -62,7 +62,7 @@ const handleSubmit = (isEdit: boolean) => {
             <td>{{ brand.Brand_Name }}</td>
             <td>
               <div class="flex gap-[10px] justify-start !pr-[20px] ">
-                <button class="btn h-[25px] p-[12px] shadow-md bg-[#f5e6e6] border-none"
+                <button class="btn h-[25px] p-[12px] shadow-md bg-[#ffffff] border-none"
                   onclick="editBrandModal.showModal()" 
                   @click="selectedBrandId = brand.Brand_ID; brandForm = { ...brand }; resetValidationErrors();">
                   Edit
@@ -100,7 +100,7 @@ const handleSubmit = (isEdit: boolean) => {
       <form method="dialog">
         <button class="btn shadow-xs h-7 mr-2 px-2 py-1 text-[12px]">Cancel</button>
       </form>
-      <button @click="handleSubmit(false)" class="btn btn-error shadow-xs h-7 px-2 py-1 text-[12px]">
+      <button @click="handleSubmit(false)" class="btn bg-[#ffc04a] shadow-xs h-7 px-2 py-1 text-[12px]">
         Create Brand
       </button>
     </div>
@@ -111,7 +111,7 @@ const handleSubmit = (isEdit: boolean) => {
   <div class="modal-box !max-w-fit">
     <div class="leading-none mb-1 flex items-center">
       <p class="text-lg font-bold">Edit Brand Info</p>
-      <div class="text-[12px] ml-[10px] bg-[#b0594a] text-white badge">
+      <div class="text-[12px] ml-[10px] bg-[#79a0db] text-white badge">
         {{ brandDatas.find(({ Brand_ID }) => Brand_ID === selectedBrandId)?.Brand_Name }}
       </div>
     </div>
@@ -130,7 +130,7 @@ const handleSubmit = (isEdit: boolean) => {
       <form method="dialog">
         <button class="btn shadow-xs h-7 mr-2 px-2 py-1 text-[12px]">Cancel</button>
       </form>
-      <button @click="handleSubmit(true)" class="btn btn-error shadow-xs h-7 px-2 py-1 text-[12px]">
+      <button @click="handleSubmit(true)" class="btn bg-[#ffc04a] shadow-xs h-7 px-2 py-1 text-[12px]">
         Save Info
       </button>
     </div>

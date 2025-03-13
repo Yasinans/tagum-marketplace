@@ -27,8 +27,16 @@ export interface WeeklySalesData {
     "Sales_Week": number;
     "Total_Sales": number;
 }
+
+export interface RecentSalesData {
+    "Sales_ID": number;
+    "Sales_Date": Date;
+    "Customer_Name": string;
+    "Total_Quantity": number;
+    "Total_Sales_Amount": number;
+}
 const api = axios.create({
-    baseURL: API_BASE_URL+"/api/analytics",
+    baseURL: API_BASE_URL.value+"/api/analytics",
 });
 
 api.interceptors.request.use((config) => {
@@ -44,4 +52,5 @@ getAnalytics: async () => await api.get<AnalyticsData>(""),
 getMonthlySales: async () => await api.get<MonthlySalesData[]>("/monthly"),
 getWeeklySales: async () => await api.get<WeeklySalesData[]>("/weekly"),
 getYearlySales: async () => await api.get<YearlySalesData[]>("/yearly"),
+getRecentSales: async (limit: number) => await api.get<RecentSalesData[]>(`/sales?limit=${limit}`)
 }

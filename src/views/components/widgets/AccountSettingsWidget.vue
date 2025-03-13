@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { getUsername } from '../../../utils/authUtil';
 import axios, { AxiosError } from "axios";
+import { API_BASE_URL } from "../../../config";
 const userAccountForm = ref({
     "username": getUsername(),
     "password": "",
@@ -11,7 +12,7 @@ const errorMessage = ref("");
 const updateAccount = async () => {
 try {
     const api = axios.create({
-        baseURL: "http://localhost:3000/api/auth",
+        baseURL: API_BASE_URL.value+   "/api/auth",
     });
     api.interceptors.request.use((config) => {
         const token = localStorage.getItem('token');
@@ -34,29 +35,26 @@ try {
 </script>
 
 <template>
-    <div class="tg-widget max-w-[400px]">
+    <div class="tg-widget max-w-[400px] font-[#5a5353]">
         <div class="tg-widget-h">
             <div>
                 Account Settings
             </div>
         </div>
         <div class="flex flex-col">
-            <fieldset class="fieldset">
-                <legend class="fieldset-legend text-white">Username:</legend>
+            <fieldset class="fieldset !bg-transparent">
+                <legend class="fieldset-legend">Username:</legend>
                 <input v-model="userAccountForm.username" id="username" type="text" class="input h-8 w-full text-black">
             </fieldset>
-            <fieldset class="fieldset">
-                <legend class="fieldset-legend text-white">Password:</legend>
-                <input v-model="userAccountForm.password" id="password" type="text" class="input h-8 w-full text-black">
+            <fieldset class="fieldset  !bg-transparent">
+                <legend class="fieldset-legend">Password:</legend>
+                <input v-model="userAccountForm.password" id="password" type="password" class="input h-8 w-full text-black">
             </fieldset>
             <p v-if="successMessage" class="text-sm text-center mt-2 text-green-500">{{ successMessage }}</p>
             <p v-if="errorMessage" class="text-sm  text-center mt-2 text-red-500">{{ errorMessage }}</p>
             
-            <button class="btn btn-neutral mt-2" @click="updateAccount()">Update Account</button>
+            <button class="btn bg-[#ffdfba] mt-2" @click="updateAccount()">Update Account</button>
 
         </div>
     </div>
 </template>
-
-<style lang="css" scoped></style>
-

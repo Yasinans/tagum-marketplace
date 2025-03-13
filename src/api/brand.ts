@@ -9,7 +9,7 @@ export interface BrandCreateUpdate {
     name: string
 }
 const api = axios.create({
-    baseURL: API_BASE_URL+"/api/brand",
+    baseURL: API_BASE_URL.value+"/api/brand",
 });
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem('token');

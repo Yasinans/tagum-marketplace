@@ -12,13 +12,13 @@ const {
 </script>
 
 <template>
-    <div class="stats bg-[#744e4e] shadow-md flex-auto">
+    <div class="stats shadow-md flex-auto">
         <div class="stat">
-          <div class="stat-figure text-[#fff0ed]">
+          <div class="stat-figure ">
             <archive-box-icon class="h-6" />
           </div>
-          <div class="stat-title text-[#e3dddc]">Total Products</div>
-          <div class="stat-value text-white text-[24px]">{{analyticsData.totalProducts}}</div>
+          <div class="stat-title">Total Products</div>
+          <div class="stat-value text-[24px]">{{analyticsData.totalProducts}}</div>
         </div>
       </div>
 </template>

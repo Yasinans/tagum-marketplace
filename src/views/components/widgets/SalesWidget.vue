@@ -26,6 +26,7 @@ const {
   productVariantDatas,
   filteredProductVariantDatas,
   selectedProductVariantId,
+  loadProductVariant,
 } = useProductVariant();
 
 const {
@@ -36,11 +37,13 @@ const {
   deleteSaleDetail,
   saleDetailSearch,
   filteredSaleDetailDatas,
+  loadSaleDetail
 } = useSaleDetail();
 
 const {
   selectedCustomerId,
   filteredCustomerDatas,
+  loadCustomer,
   customerForm,
   saveCustomer,
   resetCustomerForm,
@@ -163,19 +166,28 @@ const resetValidationErrors = () => {
     quantity: "",
   };
 };
+const validatePhoneNumber = (phone: string): boolean => {
+  const regex = /^(\+?\d{1,3}[-.\s]?)?(\(?\d{3}\)?[-.\s]?)?\d{3}[-.\s]?\d{4}$/;
+  return regex.test(phone);
+};
 
 const validateForm = () => {
   validationErrors.value = {
-    customerName: isNewCustomer.value && !customerForm.value.name ? "Customer Name is required." : "",
-    customerAddress: isNewCustomer.value && !customerForm.value.address ? "Customer Address is required." : "",
-    customerPhone: isNewCustomer.value && !customerForm.value.phone ? "Customer Phone is required." : "",
+    customerName: isNewCustomer.value && !customerForm.value.name.trim() ? "Customer Name is required." : "",
+    customerAddress: isNewCustomer.value && !customerForm.value.address.trim() ? "Customer Address is required." : "",
+    customerPhone: isNewCustomer.value && (customerForm.value.phone.trim() || validatePhoneNumber(customerForm.value.phone.trim())) ? "Customer Phone is invalid." : "",
     productVariant: !selectedProductVariantId.value ? "Product is required." : "",
     quantity: saleDetailForm.value.quantity <= 0 ? "Quantity must not be below 0." : "",
   };
-
   return Object.values(validationErrors.value).every((error) => error === "");
 };
 
+const refreshData = () => {
+  loadSale();
+  loadCustomer();
+  loadProductVariant();
+  loadSaleDetail();
+}
 const handleSubmit = () => {
   if (validateForm()) {
     processSale();
@@ -184,11 +196,11 @@ const handleSubmit = () => {
 </script>
 
 <template>
-  <div class="tg-widget w-[100%]">
+  <div class="tg-widget">
     <div class="tg-widget-h">
       <div>Sales</div>
       <div class="flex">
-        <label class="input text-[14px] text-black h-[32px] min-w-[250px] mr-2 grow bg-[#f7f2f2]">
+        <label class="input text-[14px] text-black h-[32px] min-w-[250px] mr-2 grow bg-[#fffcf8]">
           <magnifying-glass-icon class="h-[20px] pr-1" />
           <input v-model="saleSearch" type="search" class="grow" placeholder="Search Sale By Customer Name" />
         </label>
@@ -196,17 +208,24 @@ const handleSubmit = () => {
           <arrow-path-rounded-square-icon class="tg-widget-btn-icon" />
         </div>
         <div onclick="addSaleModal.showModal()" 
-        @click="resetValidationErrors(); resetSaleDetailForm(); resetCustomerForm(); selectedCustomerId = -1; selectedProductVariantId = '';"
+        @click="
+        orderDetails = [];
+        refreshData();
+        resetValidationErrors(); 
+        resetSaleDetailForm(); 
+        resetCustomerForm(); 
+        selectedCustomerId = -1; 
+        selectedProductVariantId = '';"
         class="tg-widget-btn mr-2 tooltip tooltip-left" data-tip="Add New Sale">
           <plus-icon class="tg-widget-btn-icon" />
         </div>
       </div>
     </div>
-    <div class="tg-table-container">
-      <table class="tg-table">
+    <div class="tg-table-container tg-main-table">
+      <table class="tg-table ">
         <thead>
           <tr>
-            <td>Sales #</td>
+            <td >Sales #</td>
             <td>Customer Name</td>
             <td>Cashier</td>
             <td>Sales Date</td>
@@ -219,11 +238,11 @@ const handleSubmit = () => {
             <td>{{ sale.id }}</td>
             <td>{{ sale.customerName || "N/A" }}</td>
             <td>{{ sale.employeeName }}</td>
-            <td>{{ new Date(sale.date).toLocaleString() }}</td>
+            <td>{{ new Date(sale.date).toLocaleString('default', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true }) }}</td>
             <td>₱{{ getTotalAmount(sale.id) }}</td>
             <td>
               <div class="flex gap-[10px] justify-start !pr-[20px]">
-                <button class="btn h-[25px] p-[12px] shadow-md bg-[#f5e6e6] border-none"
+                <button class="btn h-[25px] p-[12px] shadow-md bg-[#fdf0a8] border-none"
                   onclick="viewSaleDetails.showModal()" 
                   @click="
                   resetValidationErrors();
@@ -254,19 +273,19 @@ const handleSubmit = () => {
       <fieldset class="fieldset bg-base-200 border border-base-300 p-4 rounded-box">
         <legend class="fieldset-legend">Customer Details</legend>
         <div class="join">
-          <div class="flex flex-col grow mr-3">
+          <div class="flex flex-col grow mr-3 w-[50%]">
             <p class="text-xs pb-1">Customer:</p>
-            <select v-model="selectedCustomerId" class="rounded-[6px] h-[27px] px-2 py-1 max-w-xs">
+            <select v-model="selectedCustomerId" class="rounded-[6px] h-[27px] px-2 py-1">
               <option :value="-1">New Customer</option>
               <option v-for="customer in filteredCustomerDatas" :key="customer.id" :value="customer.id">
                 {{ customer.name }} - {{ customer.address }}
               </option>
             </select>
           </div>
-          <div v-if="isNewCustomer" class="grow flex flex-col">
+          <div v-if="isNewCustomer" class="grow flex flex-col w-[50%]">
             <p class="text-xs pb-1">Customer Name:</p>
             <input v-model="customerForm.name" type="text" placeholder="Customer Name"
-              class="rounded-[6px] px-2 py-1 max-w-xs" />
+              class="rounded-[6px] px-2 py-1 " />
             <p v-if="validationErrors.customerName" class="text-xs pt-1 !text-[#5e050a]">
               {{ validationErrors.customerName }}
             </p>
@@ -297,6 +316,8 @@ const handleSubmit = () => {
           <div class="flex flex-col grow mr-3">
             <p class="text-xs pb-1">Product:</p>
             <select v-model="selectedProductVariantId" class="rounded-[6px] px-2 py-1 max-w-xs">
+              <option v-if="filteredProductVariantDatas.length === 0" value="" disabled>No Existing Products</option>
+
               <option v-for="product in filteredProductVariantDatas" :key="product.Bar_Code" :value="product.Bar_Code">
                 {{ product.Bar_Code }} - {{ product.Product_Name }}
               </option>
@@ -326,7 +347,7 @@ const handleSubmit = () => {
           
         </div>
         <div v-if="saleMessages.add" class="text-xs pt-2 text-[#5e050a] text-wrap">{{ saleMessages.add }}</div>
-        <button @click="addToOrderDetails()" class="btn btn-error shadow-xs h-7 px-2 py-1 text-[12px] mt-2">
+        <button @click="addToOrderDetails()" class="btn bg-[#fff6da] shadow-xs h-7 px-2 py-1 text-[12px] mt-2">
           Add Product
         </button>
       </fieldset>
@@ -358,7 +379,7 @@ const handleSubmit = () => {
         <form method="dialog">
           <button class="btn shadow-xs h-7 mr-2 px-2 py-1 text-[12px]">Cancel</button>
         </form>
-        <button @click="handleSubmit()" class="btn btn-error shadow-xs h-7 px-2 py-1 text-[12px]">
+        <button @click="handleSubmit()" class="btn bg-[#ffc04a] shadow-xs h-7 px-2 py-1 text-[12px]">
           Create Sale
         </button>
       </div>
@@ -375,12 +396,12 @@ const handleSubmit = () => {
         <p class="text-lg font-bold">View Sale Details</p>
       </div>
       <div>
-        <ul class="list bg-base-100 rounded-box shadow-md mt-5">
+        <ul v-if="filteredSaleDetailDatas.length > 0" class="list bg-base-100 rounded-box shadow-md mt-5">
           <li v-for="order in filteredSaleDetailDatas" :key="order.barCode" class="list-row">
             <div class="pr-5 border-r border-gray-300">
               <div>Bar Code</div>
               <div class="text-xs uppercase font-semibold opacity-60">
-                {{ order.barCode }}
+                {{ order.barCode || "DELETED" }}
               </div>
             </div>
             <div>
@@ -388,7 +409,7 @@ const handleSubmit = () => {
                 {{
                   productVariantDatas.find(
                     (e) => e.Bar_Code === order.barCode
-                  )?.Product_Name
+                  )?.Product_Name || "PRODUCT DELETED"
                 }}
               </div>
               <div class="text-xs uppercase font-semibold opacity-60">
@@ -402,6 +423,7 @@ const handleSubmit = () => {
             </button>
           </li>
         </ul>
+        <p v-else class="text-center text-lg font-md">The Sale is Empty</p>
       </div>
     </div>
   </dialog>

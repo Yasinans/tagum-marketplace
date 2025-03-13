@@ -47,6 +47,9 @@ const editProductById = async (req, res) => {
         if (!brandFound) return res.status(400).json({ message: "Brand ID does not exist." });
         const productFound = await productModel.getProductById(id);
         if (!productFound) return res.status(404).json({ message: "Product not found." });
+        const products = await productModel.getProducts();
+        const productDuplicate = products.find((product) => product.Product_Name.toLowerCase() === name.toLowerCase() && product.Product_ID !== Number(id));
+        if (productDuplicate) return res.status(400).json({ message: "Product name must be unique." });
         const success = await productModel.editProductById(id, name, brandId);
         if (!success) return res.status(400).json({ message: "Failed to update product." });
         res.json({ message: "Product updated successfully." });

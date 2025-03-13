@@ -14,7 +14,7 @@ export interface CustomerDataCreateUpdate {
 }
 
 const api = axios.create({
-    baseURL: API_BASE_URL+"/api/customer",
+    baseURL: API_BASE_URL.value+"/api/customer",
 });
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem('token');

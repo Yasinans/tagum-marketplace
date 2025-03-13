@@ -31,11 +31,15 @@ const resetValidationErrors = () => {
   };
 };
 
+const validatePhoneNumber = (phone: string): boolean => {
+  const regex = /^(\+?\d{1,3}[-.\s]?)?(\(?\d{3}\)?[-.\s]?)?\d{3}[-.\s]?\d{4}$/;
+  return regex.test(phone);
+};
 const validateCustomerForm = () => {
   validationErrors.value = {
-    name: customerForm.value.name ? "" : "Customer Name is required.",
-    phone: customerForm.value.phone ? "" : "Contact Number is required.",
-    address: customerForm.value.address ? "" : "Address is required.",
+    name: customerForm.value.name.trim() ? "" : "Customer Name is required.",
+    phone: validatePhoneNumber(customerForm.value.phone.trim()) || customerForm.value.phone==""? "" : "Contact Number is invalid.",
+    address: customerForm.value.address.trim() ? "" : "Address is required.",
   };
 
   return Object.values(validationErrors.value).every((error) => error === "");
@@ -53,7 +57,7 @@ const handleSubmit = (isEdit: boolean) => {
     <div class="tg-widget-h">
       <div>Customers</div>
       <div class="flex">
-        <label class="input text-[14px] text-black h-[32px] mr-2 grow bg-[#f7f2f2]">
+        <label class="input text-[14px] text-black h-[32px] mr-2 grow bg-[#fffcf8]">
           <magnifying-glass-icon class="h-[20px] pr-1" />
           <input v-model="customerSearch" type="search" class="grow" placeholder="Search Customer Name">
         </label>
@@ -79,11 +83,11 @@ const handleSubmit = (isEdit: boolean) => {
         <tbody>
           <tr v-for="customer in filteredCustomerDatas" :key="customer.id">
             <td>{{ customer.name }}</td>
-            <td>{{ customer.phone }}</td>
+            <td>{{ customer.phone || 'N/A' }}</td>
             <td>{{ customer.address }}</td>
             <td>
               <div class="flex gap-[10px] justify-start !pr-[20px]">
-                <button class="btn h-[25px] p-[12px] shadow-md bg-[#f5e6e6] border-none"
+                <button class="btn h-[25px] p-[12px] shadow-md bg-[#ffffff] border-none"
                   onclick="editCustomerModal.showModal()"
                   @click="selectedCustomerId = customer.id; customerForm = { ...customer }; resetValidationErrors();">
                   Edit
@@ -138,7 +142,7 @@ const handleSubmit = (isEdit: boolean) => {
         <form method="dialog">
           <button class="btn shadow-xs h-7 mr-2 px-2 py-1 text-[12px]">Cancel</button>
         </form>
-        <button @click="handleSubmit(false)" class="btn btn-error shadow-xs h-7 px-2 py-1 text-[12px]">
+        <button @click="handleSubmit(false)" class="btn bg-[#ffc04a] shadow-xs h-7 px-2 py-1 text-[12px]">
           Create Customer
         </button>
       </div>
@@ -150,7 +154,7 @@ const handleSubmit = (isEdit: boolean) => {
     <div class="modal-box !max-w-fit">
       <div class="leading-none mb-1 flex items-center">
         <p class="text-lg font-bold">Edit Customer Info</p>
-        <div class="text-[12px] ml-[10px] bg-[#b0594a] text-white badge">
+        <div class="text-[12px] ml-[10px] bg-[#79a0db] text-white badge">
           {{ customerDatas.find((c) => c.id === selectedCustomerId)?.name }}
         </div>
       </div>
@@ -185,8 +189,8 @@ const handleSubmit = (isEdit: boolean) => {
         <form method="dialog">
           <button class="btn shadow-xs h-7 mr-2 px-2 py-1 text-[12px]">Cancel</button>
         </form>
-        <button @click="handleSubmit(true)" class="btn btn-error shadow-xs h-7 px-2 py-1 text-[12px]">
-          Save Info
+        <button @click="handleSubmit(true)" class="btn bg-[#ffc04a] shadow-xs h-7 px-2 py-1 text-[12px]">
+          Edit Customer
         </button>
       </div>
     </div>

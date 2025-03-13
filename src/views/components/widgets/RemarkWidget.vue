@@ -26,7 +26,7 @@ const resetValidationErrors = () => {
 
 const validateRemarkForm = () => {
   validationErrors.value = {
-    Remarks: remarkForm.value.Remarks ? "" : "Remark is required.",
+    Remarks: remarkForm.value.Remarks.trim() ? "" : "Remark is required.",
   };
 
   return Object.values(validationErrors.value).every((error) => error === "");
@@ -66,7 +66,7 @@ const handleSubmit = (isEdit: boolean) => {
             <td>{{ remark.Remarks }}</td>
             <td>
               <div class="flex gap-[10px] justify-start !pr-[20px]">
-                <button class="btn h-[25px] p-[12px] shadow-md bg-[#f5e6e6] border-none"
+                <button class="btn h-[25px] p-[12px] shadow-md bg-[#ffffff] border-none"
                   onclick="editRemarkModal.showModal()" @click="
                   messages.edit = '';
                   selectedRemarkId = remark.Remarks_ID;
@@ -114,7 +114,7 @@ const handleSubmit = (isEdit: boolean) => {
         <form method="dialog">
           <button class="btn shadow-xs h-7 mr-2 px-2 py-1 text-[12px]">Cancel</button>
         </form>
-        <button @click="handleSubmit(false)" class="btn btn-error shadow-xs h-7 px-2 py-1 text-[12px]">
+        <button @click="handleSubmit(false)" class="btn bg-[#ffc04a] shadow-xs h-7 px-2 py-1 text-[12px]">
           Create Remark
         </button>
       </div>
@@ -129,7 +129,7 @@ const handleSubmit = (isEdit: boolean) => {
       </form>
       <div class="leading-none mb-1 flex items-center">
         <p class="text-lg font-bold">Edit Remark Info</p>
-        <div class="text-[12px] ml-[10px] bg-[#b0594a] text-white badge">
+        <div class="text-[12px] ml-[10px] bg-[#79a0db] text-white badge">
           {{ remarkDatas.find(({ Remarks_ID }) => Remarks_ID === selectedRemarkId)?.Remarks }}
         </div>
       </div>
@@ -148,8 +148,8 @@ const handleSubmit = (isEdit: boolean) => {
         <form method="dialog">
           <button class="btn shadow-xs h-7 mr-2 px-2 py-1 text-[12px]">Cancel</button>
         </form>
-        <button @click="handleSubmit(true)" class="btn btn-error shadow-xs h-7 px-2 py-1 text-[12px]">
-          Save Info
+        <button @click="handleSubmit(true)" class="btn bg-[#ffc04a] shadow-xs h-7 px-2 py-1 text-[12px]">
+          Edit Remarks
         </button>
       </div>
     </div>

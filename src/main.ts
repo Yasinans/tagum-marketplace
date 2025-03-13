@@ -16,6 +16,8 @@ import UserWidget from "./views/components/widgets/UserWidget.vue";
 import RemarkWidget from "./views/components/widgets/RemarkWidget.vue";
 import AccountSettingsWidget from "./views/components/widgets/AccountSettingsWidget.vue";
 import { getPayload, getRole } from "./utils/authUtil.ts";
+import { loadConfig } from "./config";
+
 
 //Mini widgets
 import TotalEarningWidget from "./views/components/widgets/visuals/TotalEarningWidget.vue";
@@ -23,6 +25,7 @@ import NumberSalesWidget from "./views/components/widgets/visuals/NumberSalesWid
 import TotalProductsWidget from "./views/components/widgets/visuals/TotalProductsWidget.vue";
 import TotalCustomersWidget from "./views/components/widgets/visuals/TotalCustomersWidget.vue";
 import SalesTrendsWidget from "./views/components/widgets/visuals/SalesTrendsWidget.vue";
+import RecentSalesWidget from "./views/components/widgets/visuals/RecentSalesWidget.vue";
 
 const app = createApp(App);
 //lock employeeId to jaja
@@ -56,6 +59,8 @@ router.beforeEach((to, _from, next) => {
     }
 });
 
+async function startApp() {
+await loadConfig(); // Load config from Rust
 app.use(router);
 app.use(VueApexCharts);
 
@@ -79,4 +84,9 @@ app.component('number-sales-widget',NumberSalesWidget);
 app.component('total-products-widget',TotalProductsWidget);
 app.component('total-customers-widget',TotalCustomersWidget);
 app.component('sales-trends-widget',SalesTrendsWidget);
+app.component('recent-sales-widget',RecentSalesWidget);
 app.mount("#app");
+
+}
+
+  startApp()

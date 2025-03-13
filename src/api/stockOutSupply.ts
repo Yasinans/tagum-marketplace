@@ -14,7 +14,7 @@ export interface StockOutSupplyCreateUpdate {
 }
 
 const api = axios.create({
-    baseURL: API_BASE_URL+"/api/stockOut",
+    baseURL: API_BASE_URL.value+"/api/stockOut",
 });
 
 api.interceptors.request.use((config) => {

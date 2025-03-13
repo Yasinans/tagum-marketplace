@@ -30,9 +30,8 @@ export function useSupplier() {
     if (
       !supplierForm.value.Supplier_Name ||
       !supplierForm.value.Supplier_Address ||
-      !supplierForm.value.Supplier_Email ||
-      !supplierForm.value.Supplier_ContactNo
-    ) {
+      !supplierForm.value.Supplier_Email 
+      ) {
       messages[isEdit ? "edit" : "add"] = "Please fill in all fields.";
       return;
     }

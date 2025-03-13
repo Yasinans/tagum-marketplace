@@ -15,7 +15,7 @@ export interface SupplyCreateUpdate {
     supplyDate: string;
 }
 const api = axios.create({
-  baseURL: API_BASE_URL+"/api/supply",
+  baseURL: API_BASE_URL.value+"/api/supply",
 });
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');

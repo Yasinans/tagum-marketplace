@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
+const fs = require('fs');
 
+const config = JSON.parse(fs.readFileSync('config.json', 'utf-8'));
 const extractToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
@@ -19,7 +21,7 @@ const verifyToken = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(req.token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(req.token, config.jwt.secret);
     req.decodedToken = decoded;
 
     next();

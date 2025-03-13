@@ -33,12 +33,22 @@ const resetValidationErrors = () => {
   };
 };
 
+
+const validatePhoneNumber = (phone: string): boolean => {
+  const regex = /^(\+?\d{1,3}[-.\s]?)?(\(?\d{3}\)?[-.\s]?)?\d{3}[-.\s]?\d{4}$/;
+  return regex.test(phone);
+};
+
+const validateEmail = (phone: string): boolean => {
+  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return regex.test(phone);
+};
 const validateSupplierForm = () => {
   validationErrors.value = {
-    Supplier_Name: supplierForm.value.Supplier_Name ? "" : "Supplier Name is required.",
-    Supplier_Address: supplierForm.value.Supplier_Address ? "" : "Address is required.",
-    Supplier_Email: supplierForm.value.Supplier_Email ? "" : "Email Address is required.",
-    Supplier_ContactNo: supplierForm.value.Supplier_ContactNo ? "" : "Contact Number is required.",
+    Supplier_Name: supplierForm.value.Supplier_Name.trim() ? "" : "Supplier Name is required.",
+    Supplier_Address: supplierForm.value.Supplier_Address.trim() ? "" : "Address is required.",
+    Supplier_Email: validateEmail(supplierForm.value.Supplier_Email) || supplierForm.value.Supplier_Email=="" ? "" : "Email Address is invalid.",
+    Supplier_ContactNo: validatePhoneNumber(supplierForm.value.Supplier_ContactNo) || supplierForm.value.Supplier_ContactNo=="" ? "" : "Contact Number is invalid.",
   };
 
   return Object.values(validationErrors.value).every((error) => error === "");
@@ -52,11 +62,11 @@ const handleSubmit = (isEdit: boolean) => {
 </script>
 
 <template>
-  <div class="tg-widget">
+  <div class="tg-widget !max-h-fit">
     <div class="tg-widget-h">
       <div>Suppliers</div>
       <div class="flex">
-        <label class="input text-[14px] text-black h-[32px] mr-2 grow bg-[#f7f2f2]">
+        <label class="input text-[14px] text-black h-[32px] mr-2 grow bg-[#fffcf8]">
           <magnifying-glass-icon class="h-[20px] pr-1" />
           <input v-model="supplierSearch" type="search" class="grow" placeholder="Search Supplier Name">
         </label>
@@ -84,11 +94,11 @@ const handleSubmit = (isEdit: boolean) => {
           <tr v-for="supplier in filteredSupplierDatas" :key="supplier.Supplier_ID">
             <td>{{ supplier.Supplier_Name }}</td>
             <td>{{ supplier.Supplier_Address }}</td>
-            <td>{{ supplier.Supplier_Email }}</td>
-            <td>{{ supplier.Supplier_ContactNo }}</td>
+            <td>{{ supplier.Supplier_Email || 'N/A'}}</td>
+            <td>{{ supplier.Supplier_ContactNo || 'N/A' }}</td>
             <td>
               <div class="flex gap-[10px] justify-start !pr-[20px]">
-                <button class="btn h-[25px] p-[12px] shadow-md bg-[#f5e6e6] border-none"
+                <button class="btn h-[25px] p-[12px] shadow-md bg-[#ffffff] border-none"
                   onclick="editSupplierModal.showModal()" @click="
                   messages.edit = '';
                   selectedSupplierId = supplier.Supplier_ID;
@@ -160,7 +170,7 @@ const handleSubmit = (isEdit: boolean) => {
         <form method="dialog">
           <button class="btn shadow-xs h-7 mr-2 px-2 py-1 text-[12px]">Cancel</button>
         </form>
-        <button @click="handleSubmit(false)" class="btn btn-error shadow-xs h-7 px-2 py-1 text-[12px]">
+        <button @click="handleSubmit(false)" class="btn bg-[#ffc04a] shadow-xs h-7 px-2 py-1 text-[12px]">
           Create Supplier
         </button>
       </div>
@@ -172,7 +182,7 @@ const handleSubmit = (isEdit: boolean) => {
     <div class="modal-box !max-w-fit">
       <div class="leading-none mb-1 flex items-center">
         <p class="text-lg font-bold">Edit Supplier Info</p>
-        <div class="text-[12px] ml-[10px] bg-[#b0594a] text-white badge">
+        <div class="text-[12px] ml-[10px] bg-[#79a0db] text-white badge">
           {{ supplierDatas.find(({ Supplier_ID }) => Supplier_ID === selectedSupplierId)?.Supplier_Name }}
         </div>
       </div>
@@ -215,7 +225,7 @@ const handleSubmit = (isEdit: boolean) => {
         <form method="dialog">
           <button class="btn shadow-xs h-7 mr-2 px-2 py-1 text-[12px]">Cancel</button>
         </form>
-        <button @click="handleSubmit(true)" class="btn btn-error shadow-xs h-7 px-2 py-1 text-[12px]">
+        <button @click="handleSubmit(true)" class="btn bg-[#ffc04a] shadow-xs h-7 px-2 py-1 text-[12px]">
           Edit Supplier
         </button>
       </div>

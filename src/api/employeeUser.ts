@@ -24,7 +24,7 @@ export interface EmployeeUserCreateUpdate {
     role: string
 }
 const api = axios.create({
-  baseURL: API_BASE_URL+"/api/employee",
+  baseURL: API_BASE_URL.value+"/api/employee",
 });
 
 api.interceptors.request.use((config) => {

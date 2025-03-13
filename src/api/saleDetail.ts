@@ -18,7 +18,7 @@ export interface SaleDetailCreate {
 }
 
 const api = axios.create({
-    baseURL: API_BASE_URL+"/api/saleDetail",
+    baseURL: API_BASE_URL.value+"/api/saleDetail",
 });
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem('token');

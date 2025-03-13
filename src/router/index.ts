@@ -6,6 +6,7 @@ import AdminUserManagement from '../views/admin/AdminUserManagement.vue';
 import AdminSales from '../views/admin/AdminSales.vue';
 import AdminProduct from '../views/admin/AdminProduct.vue';
 import AdminSettings from '../views/admin/AdminSettings.vue';
+import AdminSupply from '../views/admin/AdminSupply.vue';
 import CashierSales from '../views/cashier/CashierSales.vue';
 import CashierCustomers from '../views/cashier/CashierCustomers.vue';
 import Settings from '../views/Settings.vue';
@@ -28,7 +29,8 @@ const router = createRouter({
                 {path: '/admin/users', component: AdminUserManagement},
                 {path: '/admin/products', component: AdminProduct},
                 {path: '/admin/sales', component: AdminSales},
-                {path: '/admin/settings', component: AdminSettings}
+                {path: '/admin/settings', component: AdminSettings},
+                {path: '/admin/supply', component: AdminSupply}
             ]
         }, 
         { 

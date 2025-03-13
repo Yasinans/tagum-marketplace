@@ -18,7 +18,7 @@ const {
 
 //User Validation
 const validatePhoneNumber = (phone: string): boolean => {
-  const regex = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
+  const regex = /^(\+?\d{1,3}[-.\s]?)?(\(?\d{3}\)?[-.\s]?)?\d{3}[-.\s]?\d{4}$/;
   return regex.test(phone);
 };
 
@@ -47,11 +47,11 @@ const resetValidationErrors = () => {
 
 const validateForm = () => {
   validationErrors.value = {
-    Employee_Name: employeeForm.value.Employee_Name ? "" : "Full Name is required.",
-    Username: employeeForm.value.Username ? "" : "Username is required.",
+    Employee_Name: employeeForm.value.Employee_Name.trim() ? "" : "Full Name is required.",
+    Username: employeeForm.value.Username.trim() ? "" : "Username is required.",
     Employee_DOB: employeeForm.value.Employee_DOB ? "" : "Date of Birth is required.",
-    Employee_Address: employeeForm.value.Employee_Address ? "" : "Address is required.",
-    Employee_Gender: employeeForm.value.Employee_Gender ? "" : "Gender is required.",
+    Employee_Address: employeeForm.value.Employee_Address.trim() ? "" : "Address is required.",
+    Employee_Gender: employeeForm.value.Employee_Gender.trim() ? "" : "Gender is required.",
     Employee_ContactNo: validatePhoneNumber(employeeForm.value.Employee_ContactNo) ? "" : "Invalid phone number.",
     Role: employeeForm.value.Role ? "" : "Role is required.",
     Password: selectedEmployeeId.value === 0 && !employeeForm.value.Password ? "Password is required." : "",
@@ -68,18 +68,15 @@ const handleSubmit = (isEdit: boolean) => {
 
 </script>
 <template>
-  <div class="font-med text-[18px] text-white tracking-tighter">
-    User Management
-  </div>
-  <div class="flex items-center bg-[#804c4c] w-[100%] py-2 px-3 rounded-[13px] shadow-md">
-    <label class="input text-[14px] h-[32px] grow  bg-[#f7f2f2]">
+  <div class="flex items-center bg-[#fff8ea] w-[100%] py-2 px-3 rounded-[13px] shadow-md">
+    <label class="input text-[14px] h-[32px] grow  bg-[#fffcf8]">
       <magnifying-glass-icon class="h-[20px] pr-1" />
       <input type="search" placeholder="Search By Full Name" v-model="employeeUserSearch.name" />
     </label>
     <div class="flex justify-end">
       <div class="dropdown dropdown-end tooltip" data-tip="Only show a specific role.">
         <div tabindex="0" role="button"
-          class="flex btn h-[34px] px-3 shadow-md bg-[#f7f0f0] ml-2 border-[#4d2f2d] radius-[3px]">
+          class="flex btn bg-[#ffe09e] h-[34px] px-3 shadow-md ml-2 border-none radius-[3px]">
           <p>Filter</p>
         </div>
         <ul tabindex="0"
@@ -106,26 +103,26 @@ const handleSubmit = (isEdit: boolean) => {
         resetValidationErrors();
         resetEmployeeUserForm();
       messages.add = '';
-      selectedEmployeeId = 0" class="flex btn h-[34px] px-3 shadow-md bg-[#f7f0f0] ml-2 border-[#4d2f2d] radius-[3px]">
+      selectedEmployeeId = 0" class="flex btn h-[34px] px-3 shadow-md bg-[#ffffff] ml-2 radius-[3px]">
         <p>Create User</p>
         <plus-icon class="h-[16px]" />
       </button>
     </div>
   </div>
-  <div class="tg-widget !p-[13px] h-[100%] rounded-[13px] bg-[#744e4e] text-white p-[13px] shadow-md flex">
+  <div class="tg-widget !max-h-fit !p-[13px] rounded-[13px] bg-[#744e4e] text-white p-[13px] shadow-md flex">
     <div class="tg-table-container tg-main-table">
       <table class="tg-table">
         <thead>
           <tr>
-            <td class="!w-[60px]">ID #</td>
+            <td>ID #</td>
             <td>Full Name</td>
             <td>Username</td>
             <td>Date of Birth</td>
             <td>Address</td>
-            <td class="!w-[75px]">Gender</td>
+            <td>Gender</td>
             <td>Contact No.</td>
             <td>Date Registered</td>
-            <td class="!w-[90px]">Role</td>
+            <td>Role</td>
           </tr>
         </thead>
         <tbody>
@@ -155,7 +152,7 @@ const handleSubmit = (isEdit: boolean) => {
             </td>
             <td>
               <div class="flex gap-[10px] justify-start !pr-[20px]">
-                <button class="btn h-[25px] p-[12px] shadow-md bg-[#f5e6e6] border-none"
+                <button class="btn h-[25px] p-[12px] shadow-md bg-[#fffbfb] border-none"
                   onclick="editEmployeeUserModal.showModal()" @click="
                   resetValidationErrors();
                     messages.edit = '';
@@ -186,7 +183,7 @@ const handleSubmit = (isEdit: boolean) => {
     <div class="modal-box !max-w-fit">
       <div class="leading-none mb-1 flex items-center">
         <p class="text-lg font-bold">Edit User Info</p>
-        <div class="text-[12px] ml-[10px] bg-[#b0594a] text-white badge">
+        <div class="text-[12px] ml-[10px] bg-[#79a0db] text-white badge">
           {{EmployeeUserDatas.find((item) => item.Employee_ID === selectedEmployeeId)?.Username}}
         </div>
 
@@ -247,7 +244,7 @@ const handleSubmit = (isEdit: boolean) => {
         <div class="pt-1 flex flex-col">
           <p class="text-xs pb-1">Role:</p>
           <select v-model="employeeForm.Role" class="rounded-[6px] px-2 py-1 max-w-xs">
-            <option disabled selected>Role</option>
+            <option disabled selected>Select Role</option>
             <option id="Cashier" value="cashier">Cashier</option>
             <option id="Stockman" value="stockman">Stockman</option>
             <option id="Admin" value="admin">Admin</option>
@@ -270,9 +267,9 @@ const handleSubmit = (isEdit: boolean) => {
       </fieldset>
       <div class="modal-action">
         <form method="dialog">
-          <button class="btn h-[35px] p-[12px] shadow-md bg-[#f57267] border-none">Close</button>
+          <button class="btn h-[35px] p-[12px] shadow-md border-none">Close</button>
         </form>
-        <button @click="handleSubmit(true)" class="btn h-[35px] p-[12px] shadow-md border-none">
+        <button @click="handleSubmit(true)" class="btn bg-[#ffc04a] h-[35px] p-[12px] shadow-md border-none">
           Save User Info
         </button>
       </div>
@@ -361,7 +358,7 @@ const handleSubmit = (isEdit: boolean) => {
         <div class="pt-1 flex flex-col">
           <p class="text-xs pb-1">Role:</p>
           <select v-model="employeeForm.Role" class="rounded-[6px] px-2 py-1 max-w-xs">
-            <option disabled selected>Role</option>
+            <option disabled selected>Select Role</option>
             <option id="Cashier" value="cashier">Cashier</option>
             <option id="Stockman" value="stockman">Stockman</option>
             <option id="Admin" value="admin">Admin</option>
@@ -382,9 +379,9 @@ const handleSubmit = (isEdit: boolean) => {
       </fieldset>
       <div class="modal-action">
         <form method="dialog">
-          <button class="btn h-[35px] p-[12px] shadow-md bg-[#f57267] border-none">Close</button>
+          <button class="btn h-[35px] p-[12px] shadow-md">Close</button>
         </form>
-        <button @click="handleSubmit(false)" class="btn h-[35px] p-[12px] shadow-md border-none">
+        <button @click="handleSubmit(false)" class="btn bg-[#ffc04a] h-[35px] p-[12px] shadow-md">
           Create User
         </button>
       </div>

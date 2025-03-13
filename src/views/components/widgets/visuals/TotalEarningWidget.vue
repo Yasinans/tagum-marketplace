@@ -13,14 +13,14 @@ const {
 </script>
 
 <template>
-<div class="stats bg-[#744e4e] shadow-md flex-auto">
+<div class="stats  shadow-md flex-auto">
     <div class="stat">
-      <div class="stat-figure text-[#fff0ed]">
+      <div class="stat-figure">
         <banknotes-icon class="h-6" />
       </div>
-      <div class="stat-title text-[#e3dddc]">Total Earnings</div>
-      <div class="stat-value text-white text-[24px]">PHP {{ analyticsData.totalEarnings.TotalAmount ?? 0}}</div>
-      <div class="stat-desc text-[#e3dddc]">
+      <div class="stat-title">Total Earnings</div>
+      <div class="stat-value text-[24px]">PHP {{ analyticsData.totalEarnings.TotalAmount ?? 0}}</div>
+      <div class="stat-desc">
         {{ new Date(analyticsData.totalEarnings.StartDate).toLocaleString('default', { month: 'long', day: 'numeric', year: 'numeric' }) }} 
         - {{ new Date(analyticsData.totalEarnings.EndDate).toLocaleString('default', { month: 'long', day: 'numeric', year: 'numeric' }) }}</div>
     </div>

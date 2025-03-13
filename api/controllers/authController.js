@@ -1,6 +1,9 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const authModel = require('../models/authModel');
+const fs = require('fs');
+
+const config = JSON.parse(fs.readFileSync('config.json', 'utf-8'));
 
 const login = async (req, res) => {
     const {username, password} = req.body;
@@ -15,7 +18,7 @@ const login = async (req, res) => {
             id:user.Employee_ID,
             username:user.Username,
             role:user.Role
-            }, process.env.JWT_SECRET, {expiresIn:'3h'});
+            }, config.jwt.secret, {expiresIn:'3h'});
 
         res.status(200).json({message: "Login successful",token});
     } catch (err) {

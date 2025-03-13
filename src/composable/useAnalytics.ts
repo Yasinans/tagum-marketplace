@@ -1,5 +1,5 @@
 import { ref, onMounted } from "vue";
-import { AnalyticsData, MonthlySalesData, WeeklySalesData, YearlySalesData,analyticsService } from "../api/analytics";
+import { AnalyticsData, RecentSalesData, MonthlySalesData, WeeklySalesData, YearlySalesData,analyticsService } from "../api/analytics";
 
 export function useAnalytics() {
     const analyticsData = ref<AnalyticsData>({
@@ -18,6 +18,9 @@ export function useAnalytics() {
     const monthlySalesData = ref<MonthlySalesData[]>([]);
 
     const yearlySalesData = ref<YearlySalesData[]>([]);
+
+    const recentSalesData = ref<RecentSalesData[]>([]);
+
     const loadAnalytics = async () => {
         try {
             const response = await analyticsService.getAnalytics();
@@ -53,11 +56,21 @@ export function useAnalytics() {
             console.error("Error loading yearly sales:", err);
         }
     }
+
+    const loadRecentSales = async (limit = 5) => {
+        try {
+            const response = await analyticsService.getRecentSales(limit);
+            recentSalesData.value = response.data;
+        } catch (err) {
+            console.error("Error loading recent sales:", err);
+        }
+    }
     onMounted(() => {
         loadAnalytics();
         loadWeeklySales();
         loadMonthlySales();
         loadYearlySales();
+        loadRecentSales();
     });
-    return { analyticsData, weeklySalesData, monthlySalesData, yearlySalesData };
+    return { analyticsData, loadRecentSales, recentSalesData, weeklySalesData, monthlySalesData, yearlySalesData };
 }

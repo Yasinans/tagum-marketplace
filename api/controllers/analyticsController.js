@@ -40,4 +40,15 @@ const getYearlyTotalSales = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 }
-module.exports = { getAnalytics, getMonthlyTotalSales, getWeeklyTotalSales, getYearlyTotalSales };
+
+const getRecentSales = async (req, res) => {
+    const { limit } = req.query;
+    try {
+        if(Number(limit) > 50) return res.status(400).json({ message: "Limit must be less than or equal to 50" });
+        const result = await analysticsModel.getRecentSales(Number(limit));
+        res.json(result);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+module.exports = {getRecentSales, getAnalytics, getMonthlyTotalSales, getWeeklyTotalSales, getYearlyTotalSales };

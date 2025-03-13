@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
+
+
 const router = useRouter();
 onMounted(() => {
   router.push('/');
@@ -19,6 +21,7 @@ onMounted(() => {
 @plugin "daisyui";
 
 body {
+  overflow: hidden;
   font-family: "Roboto";
   padding: 0;
   margin: 0;
@@ -27,11 +30,9 @@ body {
 /*Custom CSS*/
 thead td {
   position: sticky;
-  background-color: #5a3939;
   top: 0;
   padding: 13px 14px 13px 20px;
   font-size: 14px;
-  color: rgb(245, 245, 245);
   font-weight: 700;
 
 }
@@ -42,8 +43,9 @@ tr {
 
 tbody td {
   height: 10px;
-  font-size: 13px;
+  font-size: 14px;
   padding: 12px 0 12px 20px;
+  color:rgb(48, 42, 42);
   border-top: 1px solid rgb(124, 90, 90);
   font-variation-settings:
     "wdth" 75;
@@ -56,20 +58,45 @@ tbody td:last-child {
 Modify DaisyUI or unsa pa ba na
 */
 .stats{
-  background: linear-gradient(#754444 0%, #8b5151 96%,#a75b5b 100%);
+  background: #fff8ea;
 }
 
 .stat-figure{
   padding:10px;
-  background-color:#583037;
+  background-color:#f5e3db;
   border-radius:100px;
-  box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.2);
+  box-shadow: inset 0 2px 3px rgb(0 0 0 / 0.1);
 }
+
+.stat-title, .stat-desc {
+  color:#5a5353;
+}
+
+.stat-value {
+  color:#332c2cfd;
+}
+
 /*Final CSS*/
 
+.tg-header {
+  display: flex;
+  flex-direction: column;
+  gap:0 !important;
+  color:#363531;
+}
+
+.tg-header > p:nth-child(1) {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.tg-header > p:nth-child(2) {
+  font-size: 12px;
+  font-weight: light;
+}
 .tg-widget-c {
   border-radius: 7px;
-  background-color:#5a3939;
+  background-color:#997f7f;
   padding: 10px 6px 0px 6px;
   box-shadow: inset 0 1px 8px rgb(0 0 0 / 0.2);
 
@@ -82,38 +109,36 @@ Modify DaisyUI or unsa pa ba na
   max-height: 600px;
   padding: 6px;
   border-radius: 7px;
-  background-color: #5a3939;
-  box-shadow: inset -12px -8px 40px #421f1f5e;
 }
 
 .tg-main-table{
   max-height: none !important;
 }
 .tg-table {
-  table-layout: fixed;
   flex-grow: 1;
   border-collapse: collapse;
   width: 100%;
 }
 /*Custom Widget */
 .tg-widget {
-  flex: 1 1 auto;
+  flex: 1 1 auto ;
   overflow-x: hidden;
   user-select: none;
   display: flex;
   flex-direction: column;
   border-radius: 13px;
   /*background-color: #744e4e;*/
-  background: linear-gradient(#804c4c 0%, #8b5151 98%,#9c4e4e 100%);
+  background: #faf3e3;
 
-  color: white;
+  color:#353431;
+
   padding: 13px 20px 13px 20px;
   box-shadow: var(--shadow-md);
 }
 
 .tg-widget-h {
   display: flex;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   align-items: center;
   justify-content: space-between;
   width: 100%;
@@ -121,6 +146,9 @@ Modify DaisyUI or unsa pa ba na
     'wdth' 75;
 }
 
+.tg-widget-h > div:nth-child(1) {
+  margin-right:30px;
+}
 .tg-widget-btn {
   background-color: transparent;
   border: 1px solid rgba(43, 39, 39, 0.404);
@@ -147,12 +175,16 @@ Modify DaisyUI or unsa pa ba na
 }
 
 .fieldset {
+  color:black;
   border:none;
-  background-color: rgba(165, 59, 59, 0.349)
+  background-color: #fff9ed
 }
-
+.fieldset div input,.fieldset div select {
+  border:1px solid rgb(163, 138, 138);
+  background-color: #ffffffb2;
+}
 .fieldset p{
-  color:rgb(255, 255, 255);
+  color:#2b2926;
 }
 /*Temporary Modal*/
 .saveinfo {
@@ -164,7 +196,7 @@ Modify DaisyUI or unsa pa ba na
 .modal-box {
   color: rgb(8, 1, 1);
   font-size: 14px;
-  background: linear-gradient(#e7926b, #f19966); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #dfcec8 /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 .modal-operation {
   background: wheat;
@@ -174,5 +206,11 @@ Modify DaisyUI or unsa pa ba na
   border: transparent;
   background-color: #ffffff;
 
+}
+.btn {
+  border:rgb(131, 114, 114) solid 1px !important;
+}
+.badge{
+  border-color:rgb(88, 70, 70);
 }
 </style>

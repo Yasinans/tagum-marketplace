@@ -4,16 +4,17 @@
 
 <template>
   <main class="flex text-nowrap flex-col gap-[16px] p-[26px]">
-    <div class="font-med text-[18px] text-white tracking-tighter">Product & Inventory</div>
-    <div class="flex flex-wrap justify-start gap-[20px]">
-      <product-variant-widget/>
-      <supply-widget/>
+    <div class="tg-header">
+      <p>Product</p>
+      <p>{{ new Date().toLocaleString('default', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) }}
+      </p>
+    </div>
+    <div class="flex flex-wrap  justify-start gap-[20px]">
+      <product-variant-widget />
       <product-widget/>
-      <brand-widget/>
-      <supplier-widget/>
+      <brand-widget />
     </div>
   </main>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

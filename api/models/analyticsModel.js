@@ -53,4 +53,18 @@ const getYearlyTotalSales = async () => {
     ORDER BY Sales_Year;`);
     return rows;
 }
-module.exports = { getTotalAmountFromSales, getTotalProducts, getTotalCustomers, getTotalSales, getMonthlyTotalSales, getWeeklyTotalSales, getYearlyTotalSales };
+
+const getRecentSales = async (limit = 5) => {
+    const [rows] = await db.query(`SELECT s.Sales_ID, s.Sales_Date, 
+        c.Customer_Name,
+        SUM(sd.Quantity) as Total_Quantity, SUM(sd.Unit_Price * sd.Quantity) as Total_Sales_Amount 
+        FROM sales s
+        JOIN customer c ON s.Customer_ID = c.Customer_ID
+        JOIN salesdetails sd ON s.Sales_ID = sd.Sales_ID
+        WHERE s.status = 'Active'
+        GROUP BY s.Sales_ID, s.Sales_Date, c.Customer_Name
+        ORDER BY s.Sales_Date DESC 
+        LIMIT ?`, [limit]);
+    return rows;
+}
+module.exports = { getRecentSales, getTotalAmountFromSales, getTotalProducts, getTotalCustomers, getTotalSales, getMonthlyTotalSales, getWeeklyTotalSales, getYearlyTotalSales };

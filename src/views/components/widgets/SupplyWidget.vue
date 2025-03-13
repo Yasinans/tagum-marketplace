@@ -131,11 +131,11 @@ const handleSubmitDetail = () => {
 </script>
 
 <template>
-  <div class="tg-widget">
+  <div class="tg-widget !max-h-fit ">
     <div class="tg-widget-h">
       <div>Supplies</div>
       <div class="flex">
-        <label class="input text-[14px] text-black h-[32px] mr-2 grow bg-[#f7f2f2]">
+        <label class="input text-[14px] text-black h-[32px] mr-2 grow bg-[#fffcf8]">
           <magnifying-glass-icon class="h-[20px] pr-1" />
           <input v-model="supplySearch.name" type="search" class="grow" placeholder="Search Supplier Name">
         </label>
@@ -153,10 +153,10 @@ const handleSubmitDetail = () => {
       <table class="tg-table">
         <thead>
           <tr>
-            <td class="!w-[120px]">Supply #</td>
+            <td>Supply #</td>
             <td >Supplier</td>
             <td>Handled By</td>
-            <td class="!w-[160px]">Supply Date</td>
+            <td >Supply Date</td>
             <td>Action</td>
           </tr>
         </thead>
@@ -171,7 +171,7 @@ const handleSubmitDetail = () => {
             }) }}</td>
             <td>
               <div class="flex gap-[10px] justify-start !pr-[20px]">
-                <button class="btn h-[25px] p-[12px] shadow-md bg-[#f5e6e6] border-none"
+                <button class="btn h-[25px] p-[12px] shadow-md bg-[#fdf0a8] border-none"
                   onclick="viewSupplyDetailsModal.showModal()" @click="
                     resetValidationSupplyDetailErrors();
                   selectedSupplyId = supply.Supply_ID;
@@ -181,7 +181,7 @@ const handleSubmitDetail = () => {
                   ">
                   View Details
                 </button>
-                <button class="btn h-[25px] p-[12px] shadow-md bg-[#f5e6e6] border-none"
+                <button class="btn h-[25px] p-[12px] shadow-md bg-[#ffffff] border-none"
                   onclick="editSupplyModal.showModal()" @click="
                     resetValidationSupplyErrors();
                   supplyMessages.add = '';
@@ -215,12 +215,12 @@ const handleSubmitDetail = () => {
         <p class="text-lg font-bold">View Supply Details</p>
         <div class="flex items-center">
           <p class="text-[11px]">for Supply #</p>
-          <div class="text-[10px] ml-[5px] bg-[#b07166] text-white w-min m-min px-1 py-1 rounded-[15px]">
+          <div class="text-[10px] ml-[5px] bg-[#79a0db] text-white w-min m-min px-1 py-1 rounded-[15px]">
             {{ selectedSupplyId }}
           </div>
         </div>
       </div>
-      <fieldset class="fieldset bg-base-200 border border-base-300 p-4 rounded-box">
+      <fieldset class="fieldset mt-3 bg-base-200 border border-base-300 p-4 rounded-box">
         <div class="join">
           <div class="flex flex-col">
             <div>
@@ -235,7 +235,7 @@ const handleSubmitDetail = () => {
                   </option>
                 </select>
               </label>
-              <button class="btn join-item shadow-none" @click="handleSubmitDetail">Add</button>
+              <button class="btn join-item rounded-none shadow-none" @click="handleSubmitDetail">Add</button>
             </div>
             <p v-if="validationSupplyDetailErrors.Bar_Code" class="text-xs pt-1 !text-[#5e050a]">
                 {{ validationSupplyDetailErrors.Bar_Code }}
@@ -246,7 +246,7 @@ const handleSubmitDetail = () => {
           <div class="mr-2 flex flex-col">
             <label class="input">
               <span class="label">Quantity</span>
-              <input v-model="supplyDetailForm.Quantity" type="number" class="input join-item" placeholder="Quantity"
+              <input v-model="supplyDetailForm.Quantity" type="number" class="!border-none !hover:border-none join-item" placeholder="Quantity"
                 required />
             </label>
             <p v-if="validationSupplyDetailErrors.Quantity" class="text-xs pt-1 !text-[#5e050a]">
@@ -256,7 +256,7 @@ const handleSubmitDetail = () => {
           <div class="mr-2 flex flex-col">
             <label class="input mr-2">
               <span class="label">Unit Price</span>
-              <input v-model="supplyDetailForm.Unit_Price" type="number" class="input join-item"
+              <input v-model="supplyDetailForm.Unit_Price" type="number" class="!border-none !hover:border-none join-item"
                 placeholder="Unit Price" required />
             </label>
             <p v-if="validationSupplyDetailErrors.Unit_Price" class="text-xs pt-1 !text-[#5e050a]">
@@ -266,7 +266,7 @@ const handleSubmitDetail = () => {
           <div class="mr-2 flex flex-col">
             <label class="input">
               <span class="label">Expiry Date</span>
-              <input v-model="supplyDetailForm.Expiry" type="date" class="input join-item" placeholder="Calendar"
+              <input v-model="supplyDetailForm.Expiry" type="date" class="!border-none !hover:border-none join-item" placeholder="Calendar"
                 required />
             </label>
             <p v-if="validationSupplyDetailErrors.Expiry" class="text-xs pt-1 !text-[#5e050a]">
@@ -402,7 +402,7 @@ const handleSubmitDetail = () => {
       <div class="text-xs pt-2 text-[#5e050a] text-wrap">{{ supplyMessages.add }}</div>
     </fieldset>
     <div class="modal-action">
-      <button @click="handleSubmit(false)" class="btn btn-error shadow-xs h-7 px-2 py-1 text-[12px]">
+      <button @click="handleSubmit(false)" class="btn bg-[#ffc04a] shadow-xs h-7 px-2 py-1 text-[12px]">
         Create Supply
       </button>
     </div>
@@ -443,7 +443,7 @@ const handleSubmitDetail = () => {
       <form method="dialog">
         <button class="btn shadow-xs h-7 mr-2 px-2 py-1 text-[12px]">Cancel</button>
       </form>
-      <button @click="handleSubmit(true)" class="btn btn-error shadow-xs h-7 px-2 py-1 text-[12px]">
+      <button @click="handleSubmit(true)" class="btn bg-[#ffc04a] shadow-xs h-7 px-2 py-1 text-[12px]">
         Edit Supply
       </button>
     </div>

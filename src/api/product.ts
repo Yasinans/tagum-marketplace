@@ -14,7 +14,7 @@ export interface ProductCreateUpdate {
 }
 
 const api = axios.create({
-    baseURL: API_BASE_URL+"/api/product",
+    baseURL: API_BASE_URL.value+"/api/product",
 });
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem('token');

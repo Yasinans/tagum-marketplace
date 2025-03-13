@@ -37,7 +37,7 @@ export function useCustomer(){
 
     //Save
     const saveCustomer = async (isEdit: boolean) => {
-        if (!customerForm.value.name || !customerForm.value.phone || !customerForm.value.address) {
+        if (!customerForm.value.name || !customerForm.value.address) {
             messages[isEdit ? "edit" : "add"] = "Please fill in all fields.";
             return;
         }

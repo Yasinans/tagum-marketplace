@@ -1,5 +1,5 @@
 <script setup>
-import { ChartBarSquareIcon, UsersIcon, Cog8ToothIcon, ArchiveBoxArrowDownIcon } from '@heroicons/vue/24/solid';
+import { ChartPieIcon,ChartBarSquareIcon, UsersIcon, CubeIcon, Cog8ToothIcon, ArchiveBoxArrowDownIcon } from '@heroicons/vue/24/solid';
 import { ref } from 'vue'
 import { getRole } from '../../utils/authUtil';
 import logo from '../../assets/logo.png'
@@ -12,23 +12,27 @@ function changePage(page){
 
 <template>
     <div class="navbar">
-        <div class="pt-5 h-[91px] mb-8">
-            <img class=" h-[91px]" :src="logo" alt="logo">
+        <div class="mr-12 pt-5 h-[91px] mb-4 !text-[#ebe2e2] font-bold nav-title">
+            <p>TAGUM</p>
+            <p>MARKETPLACE</p>
         </div>
         <div class="nav-title mr-20 font-bold text-sm pb-2">MAIN MENU</div>
 
         <template v-if="role === 'admin'">
             <div class="nav-item" v-bind:class="{'nav-item-selected':currentPage==='dashboard'}">
-                <router-link @click="changePage('dashboard')" class="nav-item-title" to="/admin"><chart-bar-square-icon class="icon"/>Dashboard</router-link>
+                <router-link @click="changePage('dashboard')" class="nav-item-title" to="/admin"><chart-pie-icon class="icon"/>Dashboard</router-link>
             </div>
             <div class="nav-item" v-bind:class="{'nav-item-selected':currentPage==='users'}">
                 <router-link @click="changePage('users')" class="nav-item-title" to="/admin/users"><users-icon class="icon"/>User Management</router-link>
             </div>
             <div class="nav-item" v-bind:class="{'nav-item-selected':currentPage==='product'}">
-                <router-link @click="changePage('product')" class="nav-item-title" to="/admin/products"><archive-box-arrow-down-icon class="icon"/>Product & Inventory</router-link>
+                <router-link @click="changePage('product')" class="nav-item-title" to="/admin/products"><archive-box-arrow-down-icon class="icon"/>Products</router-link>
+            </div>
+            <div class="nav-item" v-bind:class="{'nav-item-selected':currentPage==='supply'}">
+                <router-link @click="changePage('supply')" class="nav-item-title" to="/admin/supply"><cube-icon class="icon"/>Supplies</router-link>
             </div>
             <div class="nav-item" v-bind:class="{'nav-item-selected':currentPage==='sales'}">
-                <router-link @click="changePage('sales')" class="nav-item-title" to="/admin/sales"><chart-bar-square-icon class="icon"/>Sales & Orders</router-link>
+                <router-link @click="changePage('sales')" class="nav-item-title" to="/admin/sales"><chart-bar-square-icon class="icon"/>Sales & Customers</router-link>
             </div>
             <div class="nav-item" v-bind:class="{'nav-item-selected':currentPage==='settings'}">
                 <router-link @click="changePage('settings')" class="nav-item-title" to="/admin/settings"><cog8-tooth-icon class="icon"/>Settings</router-link>
@@ -37,7 +41,7 @@ function changePage(page){
 
         <template v-else-if="role === 'cashier'">
             <div class="nav-item" v-bind:class="{'nav-item-selected':currentPage==='dashboard'}">
-                <router-link @click="changePage('dashboard')" class="nav-item-title" to="/cashier"><chart-bar-square-icon class="icon"/>Dashboard</router-link>
+                <router-link @click="changePage('dashboard')" class="nav-item-title" to="/cashier"><chart-pie-icon class="icon"/>Dashboard</router-link>
             </div>
             <div class="nav-item" v-bind:class="{'nav-item-selected':currentPage==='sales'}">
                 <router-link @click="changePage('sales')" class="nav-item-title" to="/cashier/sales"><chart-bar-square-icon class="icon"/>Sales</router-link>
@@ -52,18 +56,21 @@ function changePage(page){
 
         <template v-else-if="role === 'stockman'">
             <div class="nav-item" v-bind:class="{'nav-item-selected':currentPage==='dashboard'}">
-                <router-link @click="changePage('dashboard')" class="nav-item-title" to="/stockman"><chart-bar-square-icon class="icon"/>Dashboard</router-link>
+                <router-link @click="changePage('dashboard')" class="nav-item-title" to="/stockman"><chart-pie-icon class="icon"/>Dashboard</router-link>
             </div>
             <div class="nav-item" v-bind:class="{'nav-item-selected':currentPage==='supply'}">
-                <router-link @click="changePage('supply')" class="nav-item-title" to="/stockman/supply"><archive-box-arrow-down-icon class="icon"/>Supply</router-link>
+                <router-link @click="changePage('supply')" class="nav-item-title" to="/stockman/supply"><cube-icon class="icon"/>Supply</router-link>
             </div>
             <div class="nav-item" v-bind:class="{'nav-item-selected':currentPage==='product'}">
-                <router-link @click="changePage('product')" class="nav-item-title" to="/stockman/products"><chart-bar-square-icon class="icon"/>Product</router-link>
+                <router-link @click="changePage('product')" class="nav-item-title" to="/stockman/products"><archive-box-arrow-down-icon class="icon"/>Product</router-link>
             </div>
             <div class="nav-item" v-bind:class="{'nav-item-selected':currentPage==='settings'}">
                 <router-link @click="changePage('settings')" class="nav-item-title" to="/stockman/settings"><cog8-tooth-icon class="icon"/>Settings</router-link>
             </div>
         </template>
+        <div class="mt-auto">
+            <img :src="logo" alt="Logo" class="h-50">
+        </div>
     </div>
 </template>
 
@@ -91,14 +98,14 @@ function changePage(page){
 .nav-item-selected {
     box-sizing: border-box;
     border-radius: 15px 0px 0px 15px;
-    border-right: 3px solid #FFAD68;
-    background: #3F2E2E;
+    border-right: 3px solid #e6a16a;
+    background: #a78377;
 }
 
 .nav-item:not(.nav-item-selected):hover{
     box-sizing: border-box;
     border-radius: 15px 0px 0px 15px;
-    background: #5f4444;
+    background: #97786d;
 }
 
 .nav-item {
@@ -123,6 +130,7 @@ function changePage(page){
 }
 
 .nav-title {
-    color:rgba(255, 255, 255, 0.61);
+    color:rgba(255, 255, 255, 0.562);
 }
+
 </style>

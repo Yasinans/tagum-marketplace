@@ -22,7 +22,8 @@ const {
 } = useProduct();
 
 const {
-  brandDatas
+  brandDatas,
+  loadBrand
 } = useBrand();
 
 const validationErrors = ref({
@@ -39,7 +40,7 @@ const resetValidationErrors = () => {
 
 const validateProductForm = () => {
     validationErrors.value = {
-        Product_Name: productForm.value.Product_Name ? "" : "Product Name is required.",
+        Product_Name: productForm.value.Product_Name.trim() ? "" : "Product Name is required.",
         Brand_ID: productForm.value.Brand_ID ? "" : "Brand is required.",
     };
 
@@ -52,6 +53,10 @@ const handleSubmit = (isEdit: boolean) => {
     }
 };
 
+const refreshData = () => {
+  loadBrand();
+  loadProduct();
+}
 </script>
 
 <template>
@@ -60,7 +65,7 @@ const handleSubmit = (isEdit: boolean) => {
       <div>Products</div>
       <div class="flex">
         <label
-          class="input text-[14px] text-black h-[32px] mr-2 grow bg-[#f7f2f2]"
+          class="input text-[14px] text-black h-[32px] mr-2 grow bg-[#fffcf8]"
         >
           <magnifying-glass-icon class="h-[20px] pr-1" />
           <input
@@ -71,14 +76,17 @@ const handleSubmit = (isEdit: boolean) => {
           />
         </label>
         <div
-          @click="loadProduct()"
+          @click="refreshData()"
           class="tg-widget-btn mr-2 tooltip tooltip-left"
           data-tip="Refresh"
         >
           <arrow-path-rounded-square-icon class="tg-widget-btn-icon" />
         </div>
         <div
-          @click="resetProductForm(); resetValidationErrors();"
+          @click="
+          refreshData();
+          resetProductForm(); 
+          resetValidationErrors();"
           onclick="addProductModal.showModal()"
           class="tg-widget-btn mr-2 tooltip tooltip-left"
           data-tip="Add New Product"
@@ -103,9 +111,11 @@ const handleSubmit = (isEdit: boolean) => {
             <td>
               <div class="flex gap-[10px] justify-start !pr-[20px]">
                 <button
-                  class="btn h-[25px] p-[12px] shadow-md bg-[#f5e6e6] border-none"
+                  class="btn h-[25px] p-[12px] shadow-md bg-[#ffffff] border-none"
                   onclick="editProductModal.showModal()"
                   @click="
+                    refreshData();
+                    messages.edit = '';
                     productForm = {...product};
                     selectedProductId = product.Product_ID;
                     resetValidationErrors();
@@ -172,7 +182,7 @@ const handleSubmit = (isEdit: boolean) => {
         </form>
         <button
           @click="handleSubmit(false)"
-          class="btn btn-error shadow-xs h-7 px-2 py-1 text-[12px]"
+          class="btn bg-[#ffc04a] shadow-xs h-7 px-2 py-1 text-[12px]"
         >
           Add Product
         </button>
@@ -184,7 +194,7 @@ const handleSubmit = (isEdit: boolean) => {
     <div class="modal-box !max-w-fit">
       <div class="leading-none mb-1 flex items-center">
         <p class="text-lg font-bold">Edit Product Info</p>
-        <div class="text-[12px] ml-[10px] bg-[#b0594a] text-white badge">
+        <div class="text-[12px] ml-[10px] bg-[#79a0db] text-white badge">
           {{ productDatas.find(product => product.Product_ID === selectedProductId)?.Product_Name }}
         </div>
       </div>
@@ -224,7 +234,7 @@ const handleSubmit = (isEdit: boolean) => {
         </form>
         <button
           @click="handleSubmit(true)"
-          class="btn btn-error shadow-xs h-7 px-2 py-1 text-[12px]"
+          class="btn bg-[#ffc04a] shadow-xs h-7 px-2 py-1 text-[12px]"
         >
           Edit Product Info
         </button>

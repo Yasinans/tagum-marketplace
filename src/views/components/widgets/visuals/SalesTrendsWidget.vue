@@ -128,7 +128,7 @@ watch(selectedFilter, () => {
                         <calendar-date-range-icon class="tg-widget-btn-icon" />
                     </div>
                     <ul tabindex="0"
-                        class="dropdown-content menu bg-[#1f1619] mt-[3px] rounded-box z-[1] w-30 shadow-lg">
+                        class="dropdown-content text-[#fff8ea] menu bg-[#1f1619] mt-[3px] rounded-box z-[1] w-30 shadow-lg">
                         <li><a @click="updateFilter('weekly')">Weekly</a></li>
                         <li><a @click="updateFilter('monthly')">Monthly</a></li>
                         <li><a @click="updateFilter('yearly')">Yearly</a></li>
