@@ -20,6 +20,7 @@ onMounted(() => {
 @import "tailwindcss";
 @plugin "daisyui";
 
+
 body {
   overflow: hidden;
   font-family: "Roboto";

@@ -24,6 +24,7 @@
     
     border-top-left-radius: 10px;
     background: #dfcec8; 
+    color:#353431;
 
     overflow: auto;
     grid-row:2;

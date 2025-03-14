@@ -228,7 +228,7 @@ const handleSubmitDetail = () => {
                 placeholder="Search Product Name" />
               <label class="select">
                 <select v-model="supplyDetailForm.Bar_Code" class="select join-item" required>
-                  <option v-if="filteredProductVariantDatas.length === 0" value="" disabled>No Existing Products
+                  <option v-if="filteredProductVariantDatas.length === 0" value="" disabled>No Existing Product Variants
                   </option>
                   <option v-for="product in filteredProductVariantDatas" :value="product.Bar_Code">
                     {{ product.Product_Name }} {{ Math.round(product.Unit_Weight * 100) / 100 }}{{ product.Unit_Size }}

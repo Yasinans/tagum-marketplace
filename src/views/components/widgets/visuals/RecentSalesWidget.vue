@@ -10,7 +10,7 @@ const {
   loadRecentSales
 } = useAnalytics();
 
-const selectedRange = ref(0);
+const selectedRange = ref(5);
 
 watch(selectedRange, () => {
   loadRecentSales(selectedRange.value);
