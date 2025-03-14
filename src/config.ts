@@ -4,7 +4,10 @@ import { ref } from "vue";
 interface Config {
   api_url: string;
 }
-export const API_BASE_URL = ref("http://localhost:3000");
+//export const API_BASE_URL = ref("http://localhost:3000");
+
+//EXAMPLE API test ignore
+export const API_BASE_URL = ref("https://tagum-marketplace-api-web-production.up.railway.app");
 
 export async function loadConfig() {
   try {
