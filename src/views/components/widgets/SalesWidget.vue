@@ -34,7 +34,6 @@ const {
   resetSaleDetailForm,
   addSaveDetails,
   saleDetailDatas,
-  deleteSaleDetail,
   saleDetailSearch,
   filteredSaleDetailDatas,
   loadSaleDetail
@@ -242,7 +241,7 @@ const handleSubmit = () => {
             <td>₱{{ getTotalAmount(sale.id) }}</td>
             <td>
               <div class="flex gap-[10px] justify-start !pr-[20px]">
-                <button class="btn h-[25px] p-[12px] shadow-md bg-[#fdf0a8] border-none"
+                <button class="btn h-[25px] p-[12px] shadow-md border-none"
                   onclick="viewSaleDetails.showModal()" 
                   @click="
                   resetValidationErrors();
@@ -418,9 +417,6 @@ const handleSubmit = () => {
                 }}
               </div>
             </div>
-            <button @click="deleteSaleDetail(order.barCode, order.saleId)" class="btn btn-ghost border-gray-300">
-              Remove
-            </button>
           </li>
         </ul>
         <p v-else class="text-center text-lg font-md">The Sale is Empty</p>

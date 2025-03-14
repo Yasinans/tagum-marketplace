@@ -107,7 +107,7 @@ const refreshData = () => {
         <tbody>
           <tr v-for="product in filteredProductDatas" :key="product.Product_ID">
             <td>{{ product.Product_Name }}</td>
-            <td>{{ product.Brand_Name }}</td>
+            <td>{{ product.Brand_Name || "N/A" }}</td>
             <td>
               <div class="flex gap-[10px] justify-start !pr-[20px]">
                 <button

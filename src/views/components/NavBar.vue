@@ -12,7 +12,7 @@ function changePage(page){
 
 <template>
     <div class="navbar">
-        <div class="mr-12 pt-5 h-[91px] mb-4 !text-[#ebe2e2] font-bold nav-title">
+        <div class="mr-12 pt-5 h-[91px] mb-4 !text-[#dbd0d0] font-bold nav-title">
             <p>TAGUM</p>
             <p>MARKETPLACE</p>
         </div>
@@ -69,7 +69,7 @@ function changePage(page){
             </div>
         </template>
         <div class="mt-auto">
-            <img :src="logo" alt="Logo" class="h-50">
+            <img :src="logo" alt="Logo" class="h-35 opacity-70">
         </div>
     </div>
 </template>

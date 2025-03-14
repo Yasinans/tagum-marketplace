@@ -30,7 +30,7 @@ const login = async () => {
     }
   } catch (err) {
     if (axios.isAxiosError(err)) {
-      message.value = (err.response?.data.message || "Server error");
+      message.value = (err.response?.data.message || "Server Connection Failed");
     } else {
       message.value = "An unexpected error occurred.";
     }
@@ -48,9 +48,9 @@ const login = async () => {
       <div class="login-title">Sign In to Your Dashboard</div>
       <form class="login-form-detail" @submit.prevent>
         <label for="username">Username</label>
-        <input type="text" class="login-input" id="username" v-model="username">
+        <input type="text" class="login-input" id="username" v-model="username" autocomplete="off">
         <label for="password">Password</label>
-        <input type="password" class="login-input" id="password" v-model="password">
+        <input type="password" class="login-input" id="password" v-model="password" autocomplete="off">
         <button @click="login" class="login-button">Login</button>
         <p class="self-center text-[#F00] font-[300] text-[13px] pt-2">{{ message }}</p>
 
